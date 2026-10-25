@@ -1,0 +1,29 @@
+#!/bin/bash
+set -euxo pipefail
+exec > >(tee -a /var/log/user-data-apps.log) 2>&1
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
+mkdir -p /opt/express-app
+cat > /opt/express-app/server.js <<'JS'
+const express=require('express'); const app=express();
+const FLASK_URL='http://${flask_private_ip}:5000';
+app.get('/',(_q,r)=>r.send('<h1>Express frontend on separate EC2</h1><p><a href="/api/hello">Test Flask backend</a></p>'));
+app.get('/api/hello',async(_q,r)=>{try{const x=await fetch(FLASK_URL+'/api/hello');r.status(x.status).send(await x.text());}catch(e){r.status(502).json({error:e.message});}});
+app.listen(3000,'0.0.0.0',()=>console.log('Express listening on 3000'));
+JS
+cd /opt/express-app
+npm init -y
+npm install express
+cat > /etc/systemd/system/express-app.service <<'UNIT'
+[Unit]
+Description=Express assignment app
+After=network-online.target
+[Service]
+WorkingDirectory=/opt/express-app
+ExecStart=/usr/bin/node /opt/express-app/server.js
+Restart=always
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now express-app

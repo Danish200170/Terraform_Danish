@@ -1,0 +1,13 @@
+{
+  "name": "terraform-danish-express",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express frontend for Terraform assignment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

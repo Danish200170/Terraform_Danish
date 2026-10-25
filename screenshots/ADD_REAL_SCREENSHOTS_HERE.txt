@@ -1,0 +1,1 @@
+This folder intentionally contains no fabricated screenshots. Add genuine terminal/browser/AWS Console screenshots after running the deployment. See ../docs/SCREENSHOT_CHECKLIST.md.

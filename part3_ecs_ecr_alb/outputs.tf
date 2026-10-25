@@ -1,0 +1,10 @@
+output "aws_account_id" { value = data.aws_caller_identity.current.account_id }
+output "flask_ecr_repository_url" { value = aws_ecr_repository.flask.repository_url }
+output "express_ecr_repository_url" { value = aws_ecr_repository.express.repository_url }
+output "ecs_cluster_name" { value = aws_ecs_cluster.main.name }
+output "flask_service_name" { value = aws_ecs_service.flask.name }
+output "express_service_name" { value = aws_ecs_service.express.name }
+output "alb_dns_name" { value = aws_lb.app.dns_name }
+output "alb_url" { value = "http://${aws_lb.app.dns_name}" }
+output "express_target_group_arn" { value = aws_lb_target_group.express.arn }
+output "flask_target_group_arn" { value = aws_lb_target_group.flask.arn }

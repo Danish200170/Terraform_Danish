@@ -1,0 +1,5 @@
+aws_region = "ap-south-1"
+project_name = "terraform-danish"
+# Keep image tags as latest unless you change the build/push commands.
+flask_image_tag = "latest"
+express_image_tag = "latest"
